@@ -23,24 +23,24 @@
   <sub>✨ Crafted by <strong>sefatanam</strong> with <strong>kimi-k2.5</strong> ✨</sub>
 </p>
   
-```bash
-  curl https://curlui-sh.sefatanam.workers.dev
-```
+
+<p align="center">
+  <b>Try it now:</b> <code>curl https://curlui-sh.sefatanam.workers.dev</code>
+</p>
   
 <p align="center">
-
-  
   <img width="1800" height="1126" alt="image" src="https://github.com/user-attachments/assets/00be0274-359f-4703-a359-3ec6a1d9a2e1" alt="Terminal Web Interface Preview" />
 </p>
 
 ## ✨ Features
 
 - 🎨 **Beautiful Terminal Output** - ANSI-colored output with box-drawing characters
-- 🔍 **Smart Detection** - Automatically detects curl, wget, and CLI HTTP clients
-- ⚡ **Vite Powered** - Lightning-fast development and optimized builds
+- 🔍 **Smart Detection** - Automatically detects curl, wget, and CLI HTTP clients via User-Agent
+- ⚡ **Cloudflare Workers** - Edge-deployed serverless functions for instant response
 - 🌐 **Dual Interface** - Web UI for browsers, terminal UI for CLI tools
 - 📱 **Responsive Design** - Works beautifully on all devices
-- 🎯 **Zero Dependencies** - Pure JavaScript/TypeScript implementation
+- 🎯 **GitHub Pages + Workers** - Best of both worlds: static hosting + dynamic detection
+- 🚀 **Global Edge Network** - Runs on 300+ Cloudflare locations worldwide
 
 ## 🚀 Quick Start
 
@@ -50,15 +50,16 @@
 
 💻 **Terminal Interface:**
 ```bash
-curl https://sefatanam.github.io/curlui.sh/terminal.txt
+curl https://curlui-sh.sefatanam.workers.dev
 ```
+### Production Setup (Cloudflare Workers + GitHub Pages)
 
-### How It Works on GitHub Pages
-
-Since GitHub Pages is static hosting, we use a **dual-file approach**:
+We combine **GitHub Pages** for static hosting with **Cloudflare Workers** for intelligent request routing:
 
 1. **Browser**: Visit `https://sefatanam.github.io/curlui.sh` for the beautiful web UI
-2. **Terminal**: Run `curl https://sefatanam.github.io/curlui.sh/terminal.txt` for ANSI-colored output
+2. **Terminal**: Run `curl https://curlui-sh.sefatanam.workers.dev` for ANSI-colored output
+
+**The Magic**: Cloudflare Workers sits in front of your domain, detects the User-Agent, and serves the appropriate content - terminal output for CLI tools, web page for browsers.
 
 ### Development Setup
 
@@ -95,7 +96,7 @@ When you open https://sefatanam.github.io/curlui.sh in your browser, you'll see 
 
 ### Terminal Interface
 
-When you run `curl https://sefatanam.github.io/curlui.sh/terminal.txt`, you'll see:
+When you run `https://curlui-sh.sefatanam.workers.dev`, you'll see:
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
@@ -128,28 +129,53 @@ When you run `curl https://sefatanam.github.io/curlui.sh/terminal.txt`, you'll s
 
 ## 🏗️ How It Works
 
-### GitHub Pages Approach (Production)
+### Production Architecture (Cloudflare Workers)
 
-Since GitHub Pages is static hosting (no server-side code), we use a **dual-file approach**:
+The recommended production setup uses **Cloudflare Workers** for intelligent request routing:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  GitHub Pages                                                   │
-│  ┌──────────────┐              ┌──────────────────────────────┐ │
-│  │  Browser     │─────────────▶│  index.html                  │ │
-│  │  (Human)     │              │  Beautiful web UI            │ │
-│  └──────────────┘              └──────────────────────────────┘ │
-│                                                                 │
-│  ┌──────────────┐              ┌──────────────────────────────┐ │
-│  │  curl/wget   │─────────────▶│  terminal.txt                │ │
-│  │  (CLI)       │              │  ANSI-colored output         │ │
-│  └──────────────┘              └──────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
+                         ┌─────────────────────────────────────┐
+                         │     Cloudflare Edge Network         │
+                         │                                     │
+   ┌──────────────┐      │  ┌───────────────────────────────┐  │
+   │   Browser    │──────┼──▶│  Cloudflare Worker            │  │
+   │   Request    │      │  │                               │  │
+   └──────────────┘      │  │  ┌─────────────────────────┐  │  │
+                         │  │  │ Check User-Agent        │  │  │
+                         │  │  │ • curl detected?        │  │  │
+                         │  │  │ • wget detected?        │  │  │
+                         │  │  │ • browser detected?     │  │  │
+                         │  │  └───────────┬─────────────┘  │  │
+                         │  │              │                │  │
+                         │  │    ┌─────────┴─────────┐      │  │
+                         │  │    ▼                   ▼      │  │
+                         │  │ ┌──────────┐      ┌────────┐  │  │
+                         │  │ │  curl    │      │browser │  │  │
+                         │  │ │  Client  │      │Client  │  │  │
+                         │  │ └────┬─────┘      └───┬────┘  │  │
+                         │  │      │                │       │  │
+                         │  │      ▼                ▼       │  │
+                         │  │ ┌──────────┐      ┌────────┐  │  │
+                         │  │ │Terminal  │      │Proxy to│  │  │
+                         │  │ │Output    │      │GitHub  │  │  │
+                         │  │ │(ANSI)    │      │Pages   │  │  │
+                         │  │ └──────────┘      └────┬───┘  │  │
+                         │  └────────────────────────┼──────┘  │
+                         └───────────────────────────┼─────────┘
+                                                     │
+                         ┌──────────────────────────┼─────────┐
+                         │    GitHub Pages          │         │
+                         │                          ▼         │
+                         │  ┌──────────────────────────────┐  │
+                         │  │  index.html                  │  │
+                         │  │  Beautiful web UI            │  │
+                         │  └──────────────────────────────┘  │
+                         └────────────────────────────────────┘
 ```
 
-### Development Approach (Local)
+### Development Architecture (Local)
 
-When running locally with Vite, we use server-side detection:
+When running locally with Vite:
 
 ```
 ┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
@@ -174,11 +200,19 @@ When running locally with Vite, we use server-side detection:
 
 ### The Magic Behind It
 
-1. **ANSI Escape Codes** - Terminal output uses:
+1. **User-Agent Detection** - The Cloudflare Worker inspects the `User-Agent` header to determine if the request is from curl, wget, or a browser
+
+2. **Smart Routing** - Based on the detection:
+   - **CLI clients**: Return `text/plain` with ANSI escape codes
+   - **Browsers**: Proxy request to GitHub Pages
+
+3. **ANSI Escape Codes** - Terminal output uses:
    - Color codes (`\x1b[36m` for cyan, `\x1b[32m` for green)
    - Bold text (`\x1b[1m`)
    - Box-drawing characters (╔═══╗)
    - UTF-8 emojis ✨
+
+4. **Edge Network** - Cloudflare Workers run on 300+ locations worldwide for lightning-fast responses
 
 2. **Static File Hosting** - On GitHub Pages, `terminal.txt` is served as-is with ANSI codes intact
 
@@ -189,21 +223,23 @@ When running locally with Vite, we use server-side detection:
 ```
 curlui.sh/
 ├── index.html              # Main HTML page (web interface)
-├── terminal.txt            # ANSI-colored terminal output
 ├── stylex.css             # Modern dark-themed CSS
+├── worker.js              # ⭐ Cloudflare Worker (Production)
+├── wrangler.toml          # ⭐ Cloudflare configuration
 ├── terminal-plugin.js     # Vite plugin for local development
 ├── vite.config.js         # Vite configuration
 ├── package.json           # Project dependencies
+├── DEPLOY.md              # Detailed deployment guide
+├── QUICKSTART.md          # Quick start guide
 └── README.md              # This file
 ```
 
 ### Key Files
 
-- **`index.html`** - Beautiful web interface for browsers
-- **`terminal.txt`** - Pre-formatted ANSI output file for curl (works on GitHub Pages)
-- **`terminal-plugin.js`** - Vite plugin for automatic User-Agent detection during local development
-
-### Key Files
+- **`index.html`** - Beautiful web interface for browsers (hosted on GitHub Pages)
+- **`worker.js`** - ⭐ Cloudflare Worker for intelligent User-Agent detection in production
+- **`wrangler.toml`** - Cloudflare Workers deployment configuration
+- **`terminal-plugin.js`** - Vite plugin for local development server-side detection
 
 #### `terminal-plugin.js`
 
@@ -285,20 +321,65 @@ if (req.url === '/api') {
 
 ## 🚢 Deployment
 
-### Build for Production
+### 🌟 Recommended: Cloudflare Workers + GitHub Pages
+
+The best deployment approach combines **GitHub Pages** for static hosting and **Cloudflare Workers** for intelligent routing:
+
+#### 1. Deploy to GitHub Pages
+
+Your website files are automatically deployed to GitHub Pages:
+```
+https://sefatanam.github.io/curlui.sh
+```
+
+#### 2. Deploy Cloudflare Worker
+
+```bash
+# Install Wrangler CLI
+npm install -g wrangler
+
+# Login to Cloudflare
+wrangler login
+
+# Deploy your worker
+wrangler deploy
+```
+
+Your worker will be available at:
+```
+https://curlui-sh.YOUR_SUBDOMAIN.workers.dev
+```
+
+#### 3. (Optional) Custom Domain
+
+Configure your custom domain in Cloudflare and update `wrangler.toml`:
+```toml
+routes = [
+  { pattern = "curlui.sh/*", zone_name = "curlui.sh" }
+]
+```
+
+Then redeploy:
+```bash
+wrangler deploy
+```
+
+### Alternative: Build for Static Hosting
 
 ```bash
 npm run build
 ```
 
-### Deploy to Vercel
+This creates a `dist/` folder with static files for any hosting provider.
+
+### Alternative: Deploy to Vercel
 
 ```bash
 npm i -g vercel
 vercel --prod
 ```
 
-### Deploy to Netlify
+### Alternative: Deploy to Netlify
 
 ```bash
 npm run build
@@ -328,7 +409,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🔗 Links
 
 - 🌐 [Live Website](https://sefatanam.github.io/curlui.sh)
-- 💻 [Terminal Version](https://sefatanam.github.io/curlui.sh/terminal.txt)
+- 💻 [Terminal Version](https://curlui-sh.sefatanam.workers.dev)
 - 📁 [GitHub Repository](https://github.com/sefatanam/curlui.sh)
 - 🐛 [Report Bug](https://github.com/sefatanam/curlui.sh/issues)
 - 💡 [Request Feature](https://github.com/sefatanam/curlui.sh/issues)
@@ -343,6 +424,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   <i>Built with the assistance of <a href="https://github.com/opencode-ai">kimi-k2.5</a></i> 🤖
 </p>
 
-<p align="center">
-  <b>Try it now:</b> <code>curl https://sefatanam.github.io/curlui.sh/terminal.txt</code>
-</p>

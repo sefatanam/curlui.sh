@@ -1,0 +1,17 @@
+{
+  "name": "terminal-web-interface",
+  "version": "1.0.0",
+  "description": "Beautiful terminal interface that appears when using curl",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["terminal", "curl", "cli", "vite"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

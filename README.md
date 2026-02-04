@@ -22,9 +22,15 @@
 <p align="center">
   <sub>✨ Crafted by <strong>sefatanam</strong> with <strong>kimi-k2.5</strong> ✨</sub>
 </p>
-
+  
+```bash
+  curl https://curlui-sh.sefatanam.workers.dev
+```
+  
 <p align="center">
-  <img src="https://via.placeholder.com/800x400/0a0a0f/22d3ee?text=Terminal+Web+Interface" alt="Terminal Web Interface Preview">
+
+  
+  <img width="1800" height="1126" alt="image" src="https://github.com/user-attachments/assets/00be0274-359f-4703-a359-3ec6a1d9a2e1" alt="Terminal Web Interface Preview" />
 </p>
 
 ## ✨ Features

@@ -50,7 +50,7 @@
             <span class="code-lang">bash</span>
             <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
           </div>
-          <pre class="code-content"><code>curl http://localhost:5173</code></pre>
+          <pre class="code-content"><code>curl https://sefatanam.github.io/curlui.sh/terminal.txt</code></pre>
         </div>
         <p class="demo-hint">Run this command in your terminal to see the magic ✨</p>
       </section>
@@ -125,23 +125,19 @@
 
       <!-- Installation -->
       <section class="installation">
-        <h2 class="section-title">Installation</h2>
+        <h2 class="section-title">How to Use</h2>
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">bash</span>
           </div>
-          <pre class="code-content"><code># Clone the repository
-git clone https://github.com/yourusername/terminal-web-interface.git
-cd terminal-web-interface
+          <pre class="code-content"><code># View in browser
+https://sefatanam.github.io/curlui.sh
 
-# Install dependencies
-npm install
+# View in terminal
+curl https://sefatanam.github.io/curlui.sh/terminal.txt
 
-# Start development server
-npm run dev
-
-# Try it with curl
-curl http://localhost:5173</code></pre>
+# Or use wget
+wget -qO- https://sefatanam.github.io/curlui.sh/terminal.txt</code></pre>
         </div>
       </section>
 
@@ -154,7 +150,7 @@ curl http://localhost:5173</code></pre>
         Crafted by <a href="https://github.com/sefatanam" target="_blank" rel="noopener">@sefatanam</a> 
         with <a href="https://github.com/opencode-ai" target="_blank" rel="noopener">kimi-k2.5</a> 🤖
       </p>
-      <p class="footer-hint">Try running <code>curl http://localhost:5173</code> in your terminal!</p>
+      <p class="footer-hint">Try running <code>curl https://sefatanam.github.io/curlui.sh/terminal.txt</code> in your terminal!</p>
     </footer>
     
   </div>
@@ -162,7 +158,7 @@ curl http://localhost:5173</code></pre>
   <script>
     // @REVIEW: Copy to clipboard functionality
     function copyToClipboard() {
-      navigator.clipboard.writeText('curl http://localhost:5173');
+      navigator.clipboard.writeText('curl https://sefatanam.github.io/curlui.sh/terminal.txt');
       const btn = document.querySelector('.copy-btn');
       btn.textContent = 'Copied!';
       setTimeout(() => btn.textContent = 'Copy', 2000);

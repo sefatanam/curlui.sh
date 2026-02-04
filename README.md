@@ -44,34 +44,41 @@
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### Live Demo
 
-- Node.js 18+ 
-- npm or yarn
+🌐 **Web Interface:** https://sefatanam.github.io/curlui.sh
 
-### Installation
+💻 **Terminal Interface:**
+```bash
+curl https://sefatanam.github.io/curlui.sh/terminal.txt
+```
+
+### How It Works on GitHub Pages
+
+Since GitHub Pages is static hosting, we use a **dual-file approach**:
+
+1. **Browser**: Visit `https://sefatanam.github.io/curlui.sh` for the beautiful web UI
+2. **Terminal**: Run `curl https://sefatanam.github.io/curlui.sh/terminal.txt` for ANSI-colored output
+
+### Development Setup
+
+If you want to modify the project:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/terminal-web-interface.git
-cd terminal-web-interface
+git clone https://github.com/sefatanam/curlui.sh.git
+cd curlui.sh
 
 # Install dependencies
 npm install
 
 # Start development server
 npm run dev
-```
 
-### Try It
-
-Open your browser:
-```
+# View in browser
 http://localhost:5173
-```
 
-Or use curl in your terminal:
-```bash
+# Test terminal output (uses Vite plugin for auto-detection)
 curl http://localhost:5173
 ```
 
@@ -79,7 +86,7 @@ curl http://localhost:5173
 
 ### Web Interface
 
-When you open `http://localhost:5173` in your browser, you'll see a beautiful, modern website with:
+When you open https://sefatanam.github.io/curlui.sh in your browser, you'll see a beautiful, modern website with:
 
 - 🌙 Dark theme with gradient accents
 - 📱 Responsive card-based layout
@@ -88,7 +95,7 @@ When you open `http://localhost:5173` in your browser, you'll see a beautiful, m
 
 ### Terminal Interface
 
-When you run `curl http://localhost:5173`, you'll see:
+When you run `curl https://sefatanam.github.io/curlui.sh/terminal.txt`, you'll see:
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
@@ -121,52 +128,80 @@ When you run `curl http://localhost:5173`, you'll see:
 
 ## 🏗️ How It Works
 
+### GitHub Pages Approach (Production)
+
+Since GitHub Pages is static hosting (no server-side code), we use a **dual-file approach**:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  GitHub Pages                                                   │
+│  ┌──────────────┐              ┌──────────────────────────────┐ │
+│  │  Browser     │─────────────▶│  index.html                  │ │
+│  │  (Human)     │              │  Beautiful web UI            │ │
+│  └──────────────┘              └──────────────────────────────┘ │
+│                                                                 │
+│  ┌──────────────┐              ┌──────────────────────────────┐ │
+│  │  curl/wget   │─────────────▶│  terminal.txt                │ │
+│  │  (CLI)       │              │  ANSI-colored output         │ │
+│  └──────────────┘              └──────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Development Approach (Local)
+
+When running locally with Vite, we use server-side detection:
+
 ```
 ┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
 │   curl/wget     │────▶│  Vite Dev Server │────▶│ User-Agent      │
 │   (CLI Client)  │     │                  │     │ Detection       │
 └─────────────────┘     └──────────────────┘     └────────┬────────┘
                                                          │
-                              ┌──────────────────────────┘
-                              ▼
-                    ┌─────────────────┐
-                    │  Is CLI Client? │
-                    └────────┬────────┘
-                             │
-            ┌────────────────┴────────────────┐
-            ▼                                 ▼
-   ┌─────────────────┐              ┌─────────────────┐
-   │  YES            │              │  NO             │
-   │  Return ANSI    │              │  Return HTML    │
-   │  colored text   │              │  (Normal page)  │
-   │  Content-Type:  │              │  Content-Type:  │
-   │  text/plain     │              │  text/html      │
-   └─────────────────┘              └─────────────────┘
+                               ┌──────────────────────────┘
+                               ▼
+                     ┌─────────────────┐
+                     │  Is CLI Client? │
+                     └────────┬────────┘
+                              │
+             ┌────────────────┴────────────────┐
+             ▼                                 ▼
+    ┌─────────────────┐              ┌─────────────────┐
+    │  YES            │              │  NO             │
+    │  Return ANSI    │              │  Return HTML    │
+    │  colored text   │              │  (Normal page)  │
+    └─────────────────┘              └─────────────────┘
 ```
 
 ### The Magic Behind It
 
-1. **User-Agent Detection** - The server checks for `curl/`, `wget/`, `HTTPie`, or CLI indicators in the User-Agent header
-
-2. **Content Negotiation** - For CLI clients, the server returns `text/plain` with ANSI escape codes instead of `text/html`
-
-3. **ANSI Formatting** - Terminal output uses:
+1. **ANSI Escape Codes** - Terminal output uses:
    - Color codes (`\x1b[36m` for cyan, `\x1b[32m` for green)
    - Bold text (`\x1b[1m`)
    - Box-drawing characters (╔═══╗)
    - UTF-8 emojis ✨
 
+2. **Static File Hosting** - On GitHub Pages, `terminal.txt` is served as-is with ANSI codes intact
+
+3. **Local Development** - Vite plugin detects User-Agent and serves appropriate content
+
 ## 🛠️ Project Structure
 
 ```
-terminal-web-interface/
-├── index.html              # Main HTML page
+curlui.sh/
+├── index.html              # Main HTML page (web interface)
+├── terminal.txt            # ANSI-colored terminal output
 ├── stylex.css             # Modern dark-themed CSS
-├── terminal-plugin.js     # Vite plugin for terminal detection
+├── terminal-plugin.js     # Vite plugin for local development
 ├── vite.config.js         # Vite configuration
 ├── package.json           # Project dependencies
 └── README.md              # This file
 ```
+
+### Key Files
+
+- **`index.html`** - Beautiful web interface for browsers
+- **`terminal.txt`** - Pre-formatted ANSI output file for curl (works on GitHub Pages)
+- **`terminal-plugin.js`** - Vite plugin for automatic User-Agent detection during local development
 
 ### Key Files
 
@@ -292,10 +327,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- [Live Demo](https://your-demo-url.com)
-- [Documentation](https://your-docs-url.com)
-- [Report Bug](https://github.com/yourusername/terminal-web-interface/issues)
-- [Request Feature](https://github.com/yourusername/terminal-web-interface/issues)
+- 🌐 [Live Website](https://sefatanam.github.io/curlui.sh)
+- 💻 [Terminal Version](https://sefatanam.github.io/curlui.sh/terminal.txt)
+- 📁 [GitHub Repository](https://github.com/sefatanam/curlui.sh)
+- 🐛 [Report Bug](https://github.com/sefatanam/curlui.sh/issues)
+- 💡 [Request Feature](https://github.com/sefatanam/curlui.sh/issues)
 
 ---
 
@@ -308,5 +344,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 </p>
 
 <p align="center">
-  <b>Try it now:</b> <code>curl http://localhost:5173</code>
+  <b>Try it now:</b> <code>curl https://sefatanam.github.io/curlui.sh/terminal.txt</code>
 </p>
